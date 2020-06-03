@@ -58,20 +58,21 @@ Generally, this is what happens when a navigation happens from each of the two s
 
 Note: Indentation roughly shows the function call stack, although with observables it might not be exact as there will be some Mobx functions in the stack also.
 
+---
 - JS Event (e.g click)
     - (1) Update state
         - (2) Update JSX DOM
         - `nav(navEvent)`
             - (3) Update URL
             - (4) Update Document
- 
+---
 - Browser event (e.g. pasting a new URL into the address bar)
     - (3) Update URL
         - `events.browser.after(url, params)`
             - (1) Update state
                 - (2) Update JSX DOM
                 - (4) Update Document.
-
+---
 
 ### How to add `piconav` to your JS project.
 
