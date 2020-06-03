@@ -129,28 +129,28 @@ When the user navigates via JS click:
 - Call `nav(navEvent)`
 
 Example using a MobX store:
-
 ```js
 @observable curUrl = null;
 
+// This is a public method on an observable store that your app uses to navigate.
+// Use `curUrl` state to render the correct page in JSX.
+// `src` should equal `browser` when `nav` is called from the `events.browser.after` callback. 
 nav(appSpecificData, src = "js") {
     this.curUrl = {
         url: "/a/b/c",
         title: "A Title",
         metaDesc: "A page description",
         data: appSpecificData,
-        src
+        src // equals "js" or "browser"
     };
 }
 ```
-Note: `src` is either `js` or `browser`.
 
-E.g If `curUrl` is set via the `events.browser.after` function, `src` will be `"browser"`.
+ 
 
-Using an observable to store `curUrl` property allows updating both the JSX DOM and `document` when state changes. 
-
-Updating `document` when `curUrl` changes:
+Calling `piconav` functions after your app navigates to a new URL: 
 ```js
+// Using `observe` on `curUrl` allows calling `nav` and `updateDoc` in a single place (instead of many call sites).
 const disposer = observe(storeIns, "curUrl", ({oldValue, newValue}) => {
     const {url, title, metaDesc, data, src} = newValue;
 
@@ -176,18 +176,13 @@ const disposer = observe(storeIns, "curUrl", ({oldValue, newValue}) => {
     }
 });
 ```
-Using `observe` on `curUrl` allows calling `nav` and `updateDoc` in a single place (instead of many call sites).
-
 
 ####  3. Run `navByBrowser` on initial page load.
 
-This will call `events.browser.after` which will set your JS state to match the current URL.
-
-This should be done preferably before you mount your JSX components so the first JSX render is your page content and not empty components.
-
-This is important so the Googlebot snapshots and indexes the correct HTML. 
-
 ```js
+// Will call the `events.browser.after` callback which should set your JS state to match that of the current browser URL.
+// Note: this is best done before mounting your JSX as the first JSX render will be the correct page and not empty containers.
+// - This ensures Googlebot snapshots the correct HTML.
 navByBrowser();
 ```
 
