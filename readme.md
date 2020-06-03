@@ -39,7 +39,7 @@ Install: `yarn add piconav` or `npm install piconav`.
 #### 1. Create a `nav.js` to add configuration and event handlers to `piconav`.
 
 ```js
-import {on, off} from "./../lib/piconav";
+import {on, off} from "piconav";
 import {storeIns} from "./../stores/store";
 
 const resetPrimaryScroll = () => {

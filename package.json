@@ -1,6 +1,6 @@
 {
     "name": "piconav",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "description": "JS SPA nav library.",
     "main": "index.js",
     "scripts": {
