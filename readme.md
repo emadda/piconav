@@ -34,7 +34,9 @@ It aims to allow Google indexing of SPA's to prevent the need for server side re
 
 ### How to add `piconav` to your JS project.
 
-1. Create a `nav.js` to add configuration and event handlers to `piconav`.
+Install: `yarn add piconav` or `npm install piconav`.
+
+#### 1. Create a `nav.js` to add configuration and event handlers to `piconav`.
 
 ```js
 import {on, off} from "./../lib/piconav";
@@ -72,7 +74,7 @@ export {
 }
 ```
 
-2.  Import `nav.js` to your store, map JS state to `document` state.
+#### 2.  Import `nav.js` to your store, map JS state to `document` state.
 
 When the user navigates via browser:
 - `events.browser.after(url, params)` is called.
@@ -132,7 +134,7 @@ const disposer = observe(storeIns, "curUrl", ({oldValue, newValue}) => {
 Using `observe` on `curUrl` allows calling `nav` and `updateDoc` in a single place (instead of many call sites).
 
 
-3. Run `navByBrowser` on initial page load.
+####  3. Run `navByBrowser` on initial page load.
 
 This will call `events.browser.after` which will set your JS state to match the current URL.
 
