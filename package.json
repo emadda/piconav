@@ -1,0 +1,14 @@
+{
+    "name": "piconav",
+    "version": "0.0.1",
+    "description": "JS SPA nav library.",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Enzo",
+    "license": "MIT",
+    "dependencies": {
+        "lodash.merge": "^4.6.2"
+    }
+}
