@@ -14,7 +14,7 @@ It aims to allow Google indexing of SPA's to prevent the need for server side re
     - I do not like the idea of using non-display JSX elements to add meta data to nodes (as React Router does with `Route`).
 
 - Clear API.
-    - The standard browser APIs around single page navigation are not very clear so I created `picnoav` to document their usage.
+    - The standard browser APIs around single page navigation are not very clear so I created `piconav` to document their usage.
     - The `document` title, canonical URL and meta description are outside the control of the JSX DOM so have to updated directly with the DOM API.
 
 - SEO.
@@ -31,8 +31,52 @@ It aims to allow Google indexing of SPA's to prevent the need for server side re
     - `piconav` is very simple.
     - You can copy or customize the functionality quickly.
 
+### How does `piconav` work?
+
+There are four broad variables in JS and the DOM that need to be kept in sync:
+
+1. JS state
+    - E.g. Your React store.
+2. JSX DOM.
+    - Your state converted into DOM elements via JSX.
+3. URL
+    - The browser address bar that the user types into, and which is changed on forward/back browser button presses.
+4. Document.
+    - E.g the title, `<link>` meta and canonical URL values.
+      
+There are two sources of navigation:
+1. Browser.
+    - Any navigation caused by the browser chrome UI (including swipe gestures for forward and back).
+2. JS.
+    - Any navigation triggered by handling of a click event or other JS event.
+
+`piconav` observes a navigation from one of the sources, and makes sure each of the four variables are in sync.
+
+You need to integrate `piconav` into your app by passing it function callbacks - code examples below.
+
+Generally, this is what happens when a navigation happens from each of the two sources:
+
+Note: Indentation roughly shows the function call stack, although with observables it might not be exact as there will be some Mobx functions in the stack also.
+
+- JS Event (e.g click)
+    - (1) Update state
+        - (2) Update JSX DOM
+        - `nav(navEvent)`
+            - (3) Update URL
+            - (4) Update Document
+ 
+- Browser event (e.g. pasting a new URL into the address bar)
+    - (3) Update URL
+        - `events.browser.after(url, params)`
+            - (1) Update state
+                - (2) Update JSX DOM
+                - (4) Update Document.
+
 
 ### How to add `piconav` to your JS project.
+
+<details>
+  <summary>How to add `piconav` to your JS project.</summary>
 
 Install: `yarn add piconav` or `npm install piconav`.
 
@@ -145,4 +189,7 @@ This is important so the Googlebot snapshots and indexes the correct HTML.
 ```js
 navByBrowser();
 ```
+
+</details>
+
 
